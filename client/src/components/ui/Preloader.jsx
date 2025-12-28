@@ -22,14 +22,14 @@ export default function Preloader() {
         >
           <div className="relative">
             {/* Outer Ring */}
-            <motion.div 
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               className="w-24 h-24 border-t-2 border-b-2 border-neon rounded-full"
             />
-            
+
             {/* Inner Ring */}
-            <motion.div 
+            <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
               className="absolute top-2 left-2 right-2 bottom-2 border-r-2 border-l-2 border-purple-500 rounded-full"
@@ -39,11 +39,11 @@ export default function Preloader() {
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="font-mono text-neon text-xs animate-pulse">LOADING</span>
             </div>
-            
+
             {/* Glitch Effect Background */}
             <div className="absolute -inset-4 bg-neon/5 blur-xl animate-pulse rounded-full"></div>
           </div>
-          
+
           <div className="absolute bottom-10 font-mono text-white/40 text-xs">
             INITIALIZING SYSTEM...
           </div>

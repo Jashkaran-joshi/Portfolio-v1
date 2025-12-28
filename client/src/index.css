@@ -82,7 +82,7 @@
 
   /* Container sizing - widened for large screens */
   .container-custom {
-    @apply max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 lg:px-24 w-full;
   }
 
   /* Section spacing - reduced for cleaner look */
