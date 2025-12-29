@@ -15,8 +15,12 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(helmet());
+
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+const normalizedOrigin = clientUrl.endsWith('/') ? clientUrl.slice(0, -1) : clientUrl;
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: normalizedOrigin,
   methods: ['POST'],
   allowedHeaders: ['Content-Type']
 }));
