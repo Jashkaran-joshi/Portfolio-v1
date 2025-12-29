@@ -29,7 +29,7 @@ export default function About() {
                   {/* Main Image Container */}
                   <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 group-hover:border-neon/30 transition-colors duration-500 shadow-2xl z-10">
                     <motion.img
-                      src="/profile.jpeg"
+                      src="/profile.webp"
                       alt={personalData.name}
                       className="w-full h-full object-cover"
                       whileHover={{ scale: 1.03 }}

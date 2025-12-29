@@ -5,7 +5,8 @@ export const personalData = {
     email: "jashkaranjoshi@gmail.com",
     phone: "+91 8000260019",
     github: "https://github.com/Jashkaran-joshi",
-    linkedin: "https://www.linkedin.com/in/jaskaran-joshi"
+    linkedin: "https://www.linkedin.com/in/jaskaran-joshi",
+    instagram: "https://www.instagram.com/jashkaran_joshi"
   },
   about: {
     title: "About",

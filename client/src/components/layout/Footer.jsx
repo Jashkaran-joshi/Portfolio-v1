@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { FiGithub, FiLinkedin, FiArrowUp, FiHeart } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiInstagram, FiArrowUp, FiHeart } from 'react-icons/fi';
 import { animateScroll as scroll } from 'react-scroll';
 import { personalData } from '../../constants/data';
 
@@ -56,6 +56,11 @@ export default function Footer() {
             href={personalData.contact.linkedin}
             icon={FiLinkedin}
             label="LinkedIn Profile"
+          />
+          <SocialLink
+            href={personalData.contact.instagram}
+            icon={FiInstagram}
+            label="Instagram Profile"
           />
 
           <motion.button

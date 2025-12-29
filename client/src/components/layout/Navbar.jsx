@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, memo } from 'react';
 import { Link } from 'react-scroll';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiMenu, FiX, FiGithub, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import { throttle } from '../../utils/performanceUtils';
 
 const navItems = [
@@ -144,15 +144,24 @@ const MobileSidebar = memo(function MobileSidebar({ isOpen, onClose }) {
                 >
                   <FiGithub size={18} />
                 </a>
-                <a
-                  href="https://linkedin.com/in/jaskaran-joshi"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center w-10 h-10 text-white/60 hover:text-neon bg-white/5 rounded-lg border border-white/10 hover:border-neon/30 transition-all duration-300"
-                  aria-label="LinkedIn Profile"
-                >
-                  <FiLinkedin size={18} />
-                </a>
+              <a
+                href="https://linkedin.com/in/jaskaran-joshi"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center w-10 h-10 text-white/60 hover:text-neon bg-white/5 rounded-lg border border-white/10 hover:border-neon/30 transition-all duration-300"
+                aria-label="LinkedIn Profile"
+              >
+                <FiLinkedin size={18} />
+              </a>
+              <a
+                href="https://www.instagram.com/jashkaran_joshi"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center w-10 h-10 text-white/60 hover:text-neon bg-white/5 rounded-lg border border-white/10 hover:border-neon/30 transition-all duration-300"
+                aria-label="Instagram Profile"
+              >
+                <FiInstagram size={18} />
+              </a>
               </div>
             </motion.div>
 

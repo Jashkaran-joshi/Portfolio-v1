@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const baseUrl = 'https://jaskaran-joshi.vercel.app';
+const baseUrl = 'https://jaskaranjoshi.online';
 const pages = [
     '/',
     '/about',
