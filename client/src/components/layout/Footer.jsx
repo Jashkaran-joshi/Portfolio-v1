@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiArrowUp, FiHeart } from 'react-icons/fi';
 import { animateScroll as scroll } from 'react-scroll';
-import { personalData } from '../data';
+import { personalData } from '../../constants/data';
 
 const SocialLink = memo(function SocialLink({ href, icon: Icon, label }) {
   return (

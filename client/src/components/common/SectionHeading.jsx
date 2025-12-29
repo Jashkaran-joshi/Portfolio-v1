@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import Reveal from './ui/Reveal';
+import Reveal from '../ui/Reveal';
 
 export default function SectionHeading({
   eyebrow,

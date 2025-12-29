@@ -9,12 +9,12 @@ export const personalData = {
   },
   about: {
     title: "About",
-    subtitle: "I am a dedicated and passionate learner with a strong interest in cybersecurity and web development. I am eager to apply my skills and knowledge to real-world challenges and contribute to innovative projects.",
+    subtitle: "I am a dedicated Cybersecurity Enthusiast and Full-Stack Web Developer based in Jaipur, Rajasthan. With a strong academic background from JECRC University (MCA) and Government Engineering College Bikaner (BCA), I specialize in building secure, scalable web applications and performing vulnerability assessments.",
     details: [
-      { prompt: "$ whoami", text: "Jaskaran Joshi" },
-      { prompt: "$ role", text: "MCA Student | Full-Stack Web Developer | Cybersecurity Enthusiast" },
-      { prompt: "$ objective", text: "To contribute to secure software development by building resilient web applications and continuously improving defensive + offensive security skills." },
-      { prompt: "$ interests", text: "Ethical hacking, secure APIs, networking fundamentals, and building clean UI with performance in mind." }
+      { prompt: "$ whoami", text: "Jaskaran Joshi | Cybersecurity Specialist in Jaipur" },
+      { prompt: "$ role", text: "MCA Student | Full-Stack Developer | Ethical Hacker" },
+      { prompt: "$ objective", text: "To engineer secure software solutions by merging full-stack development with offensive security strategies (Red Teaming)." },
+      { prompt: "$ interests", text: "Penetration Testing, Secure API Development, React.js, Node.js, and Cloud Security." }
     ]
   },
   education: [
@@ -140,10 +140,10 @@ export const personalData = {
   projects: [
     {
       id: "adoptnest",
-      name: "AdoptNest – A Pet Adoption & Rescue Platform",
-      description: "Full-stack platform enabling pet adoption, lost pet reporting, shelter connections, and timely animal care to reduce homelessness and suffering nationwide.",
+      name: "AdoptNest – Secure Pet Adoption Platform",
+      description: "A React and Node.js-based full-stack adoption platform connecting shelters with adopters. Features secure user authentication, real-time database management, and responsive UI for reducing pet homelessness.",
       tech: ["React", "Node.js", "Express", "Tailwind"],
-      live: "#",
+      live: "https://adoptnest.vercel.app/",
       github: "https://github.com/Jashkaran-joshi/AdoptNest"
     },
     {
@@ -156,10 +156,10 @@ export const personalData = {
     },
     {
       id: "titanax-labs",
-      name: "TitanAx Labs – AI Code Generator Platform",
-      description: "AI-powered platform generating frontend, backend, and database code across multiple frameworks using a single interactive development interface for rapid creation.",
+      name: "TitanAx Labs – AI-Powered Code Generator",
+      description: "An advanced AI development tool that generates production-ready frontend and backend code. Built with React.js and Express, designed to accelerate software development workflows.",
       tech: ["React", "Node.js", "Express", "AI Integration"],
-      live: "#",
+      live: "https://titanax-labs.vercel.app",
       github: "https://github.com/Jashkaran-joshi/TitanAx-Labs"
     },
     {

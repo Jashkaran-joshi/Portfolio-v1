@@ -1,5 +1,5 @@
 import { useEffect, useRef, memo } from 'react';
-import { prefersReducedMotion, getOptimalParticleCount, debounce } from '../utils/performanceUtils';
+import { prefersReducedMotion, getOptimalParticleCount, debounce } from '../../utils/performanceUtils';
 
 const CyberBackground = memo(function CyberBackground() {
   const canvasRef = useRef(null);

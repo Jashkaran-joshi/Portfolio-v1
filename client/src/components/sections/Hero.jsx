@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, memo, useCallback } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { scroller } from 'react-scroll';
-import NeonButton from './ui/NeonButton';
+import NeonButton from '../ui/NeonButton';
 import { FiDownload, FiChevronRight } from 'react-icons/fi';
 import { Shield, Lock, Activity, Database, Globe, Cpu, Code, Key } from 'lucide-react';
 

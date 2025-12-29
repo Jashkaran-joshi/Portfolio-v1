@@ -1,9 +1,9 @@
 import { useState, memo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SectionHeading from './SectionHeading';
-import GlassCard from './ui/GlassCard';
-import Reveal from './ui/Reveal';
-import { personalData } from '../data';
+import SectionHeading from '../common/SectionHeading';
+import GlassCard from '../ui/GlassCard';
+import Reveal from '../ui/Reveal';
+import { personalData } from '../../constants/data';
 import { FiAward, FiCalendar, FiCopy, FiCheck, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 // Precomputed issuer colors for performance

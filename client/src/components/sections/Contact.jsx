@@ -1,10 +1,10 @@
 import { useState, memo } from 'react';
 import { motion } from 'framer-motion';
-import SectionHeading from './SectionHeading';
-import GlassCard from './ui/GlassCard';
-import Reveal from './ui/Reveal';
-import NeonButton from './ui/NeonButton';
-import { personalData } from '../data';
+import SectionHeading from '../common/SectionHeading';
+import GlassCard from '../ui/GlassCard';
+import Reveal from '../ui/Reveal';
+import NeonButton from '../ui/NeonButton';
+import { personalData } from '../../constants/data';
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 import { MessageCircle } from 'lucide-react';
 

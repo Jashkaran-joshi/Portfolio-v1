@@ -3,7 +3,7 @@ import { Link } from 'react-scroll';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMenu, FiX, FiGithub, FiLinkedin } from 'react-icons/fi';
-import { throttle } from '../utils/performanceUtils';
+import { throttle } from '../../utils/performanceUtils';
 
 const navItems = [
   { name: 'Home', to: 'home' },

@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import SectionHeading from './SectionHeading';
-import GlassCard from './ui/GlassCard';
-import Reveal from './ui/Reveal';
-import { personalData } from '../data';
+import SectionHeading from '../common/SectionHeading';
+import GlassCard from '../ui/GlassCard';
+import Reveal from '../ui/Reveal';
+import { personalData } from '../../constants/data';
 
 const SkillBar = memo(function SkillBar({ label, value, index }) {
   return (
