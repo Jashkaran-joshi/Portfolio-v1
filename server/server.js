@@ -1,11 +1,14 @@
+const dotenv = require('dotenv');
+dotenv.config();
+const connectDB = require('./config/db');
+
+// Connect to Database
+connectDB();
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const dotenv = require('dotenv');
 const contactRoutes = require('./routes/contact');
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,13 +21,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
-
-// Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use('/api', limiter);
 
 // Routes
 app.use('/api/contact', contactRoutes);

@@ -1,67 +1,18 @@
-import { useState, memo } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import SectionHeading from '../common/SectionHeading';
-import GlassCard from '../ui/GlassCard';
-import Reveal from '../ui/Reveal';
+import { Send, Mail, MapPin, User, FileText, MessageSquare, AlertCircle, CheckCircle, Phone, Loader2 } from 'lucide-react';
 import NeonButton from '../ui/NeonButton';
-import { personalData } from '../../constants/data';
-import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
-import { MessageCircle } from 'lucide-react';
 
-// Contact Card with equal height layout
-const ContactInfoCard = memo(function ContactInfoCard({ icon: Icon, label, value, href, isWhatsApp = false }) {
-  const bgColor = isWhatsApp ? 'bg-green-500/10' : 'bg-neon/10';
-  const hoverBg = isWhatsApp ? 'group-hover:bg-green-500/20' : 'group-hover:bg-neon/20';
-  const textColor = isWhatsApp ? 'text-green-500' : 'text-neon';
-  const hoverText = isWhatsApp ? 'group-hover:text-green-400' : 'group-hover:text-neon';
-  const borderHover = isWhatsApp ? 'hover:border-green-500/40' : 'hover:border-neon/40';
-
-  const CardInner = (
-    <GlassCard
-      className="p-5 h-full group cursor-pointer flex flex-col justify-center"
-      glowColor={isWhatsApp ? 'neon' : 'neon'} // WhatsApp could be green, but keeping site-consistent neon/purple for now per user rules for symmetry
-      hoverEffect={true}
-    >
-      {/* Icon */}
-      <div className={`w-11 h-11 ${bgColor} ${hoverBg} rounded-lg flex items-center justify-center ${textColor} mb-3 transition-all duration-300 group-hover:scale-110 shrink-0`}>
-        <Icon size={20} />
-      </div>
-
-      {/* Label */}
-      <div className="text-white/40 text-[10px] font-mono uppercase tracking-wider mb-1">
-        {label}
-      </div>
-
-      {/* Value */}
-      <div className={`text-white text-sm font-medium ${hoverText} transition-colors duration-300 truncate`}>
-        {value}
-      </div>
-    </GlassCard>
-  );
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        target={isWhatsApp ? '_blank' : undefined}
-        rel={isWhatsApp ? 'noopener noreferrer' : undefined}
-        className="block h-full"
-      >
-        {CardInner}
-      </a>
-    );
-  }
-
-  return CardInner;
-});
-
-export default function Contact() {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    subject: '',
     message: ''
   });
-  const [status, setStatus] = useState('idle');
+
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,172 +21,234 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
+    setErrorMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/contact`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        setStatus('error');
-        setTimeout(() => setStatus('idle'), 5000);
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
       }
+
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus('idle'), 5000); // Reset status after 5 seconds
+
     } catch (error) {
+      console.error('Contact error:', error);
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
+      setErrorMessage(error.message);
     }
   };
 
-  const phoneNumber = personalData.contact.phone;
-  const whatsappNumber = phoneNumber.replace(/[\s+]/g, '');
+  // Animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
 
   return (
-    <section id="contact" className="py-16 md:py-20 lg:py-24 bg-dark/30 relative overflow-hidden scroll-mt-20">
-      {/* Background decoration */}
-      <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-neon/5 to-transparent pointer-events-none" />
-
+    <section id="contact" className="section-spacing relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-1/2 -right-64 w-96 h-96 bg-neon/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 -left-64 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="container-custom relative z-10">
-        <SectionHeading
-          eyebrow="Connect"
-          title="Get In Touch"
-          subtitle="Let's discuss security, development, or your next big idea."
-        />
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-stretch"
+        >
+          {/* Left Column: Contact Info */}
+          <motion.div variants={fadeInUp} className="flex flex-col h-full justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-8 h-px bg-neon"></span>
+                <span className="text-neon font-mono text-sm tracking-widest">GET IN TOUCH</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-6">
+                Let's Work Together
+              </h2>
+              <p className="text-white/60 text-lg leading-relaxed max-w-md">
+                Have a project in mind or want to discuss security solutions?
+                I'm always open to new opportunities and collaborations.
+              </p>
+            </div>
 
-        {/* Symmetrical Grid Layout - items-stretch ensures equal height */}
-        <div className="mt-10 md:mt-14 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
-          {/* Left Side - Contact Cards (2x2 grid, stretches to match form) */}
-          <div className="grid grid-cols-2 gap-4 auto-rows-fr h-full">
-            <Reveal delay={0} width="100%" className="h-full">
-              <ContactInfoCard
-                icon={FiMail}
-                label="Email"
-                value={personalData.contact.email}
-                href={`mailto:${personalData.contact.email}`}
-              />
-            </Reveal>
+            <div className="flex flex-col gap-4 flex-1 justify-end">
+              {/* Email Card */}
+              <a
+                href="mailto:jashkaranjoshi@gmail.com"
+                className="interactive-card hover-lift p-6 flex items-center gap-5 group cursor-pointer"
+              >
+                <div className="p-4 bg-neon/10 rounded-full text-neon group-hover:bg-neon/20 group-hover:scale-110 transition-all duration-300 shrink-0">
+                  <Mail size={24} />
+                </div>
+                <div>
+                  <h3 className="text-white text-lg font-bold mb-1 group-hover:text-neon transition-colors">Email Me</h3>
+                  <p className="text-white/60 mb-1">jashkaranjoshi@gmail.com</p>
+                  <p className="text-xs text-white/40 font-mono">Response time: Within 24 hours</p>
+                </div>
+              </a>
 
-            <Reveal delay={0.05} width="100%" className="h-full">
-              <ContactInfoCard
-                icon={FiPhone}
-                label="Phone"
-                value={phoneNumber}
-                href={`tel:${phoneNumber.replace(/\s/g, '')}`}
-              />
-            </Reveal>
+              {/* WhatsApp Card */}
+              <a
+                href="https://wa.me/918000260019"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="interactive-card hover-lift p-6 flex items-center gap-5 group cursor-pointer"
+              >
+                <div className="p-4 bg-green-500/10 rounded-full text-green-500 group-hover:bg-green-500/20 group-hover:scale-110 transition-all duration-300 shrink-0">
+                  <MessageSquare size={24} />
+                </div>
+                <div>
+                  <h3 className="text-white text-lg font-bold mb-1 group-hover:text-green-500 transition-colors">WhatsApp</h3>
+                  <p className="text-white/60 mb-1">Chat directly with me</p>
+                  <p className="text-xs text-white/40 font-mono">Available Mon-Fri, 9am - 6pm</p>
+                </div>
+              </a>
 
-            <Reveal delay={0.1} width="100%" className="h-full">
-              <ContactInfoCard
-                icon={MessageCircle}
-                label="WhatsApp"
-                value="Chat with me"
-                href={`https://wa.me/${whatsappNumber}`}
-                isWhatsApp={true}
-              />
-            </Reveal>
+              {/* Location Card */}
+              <div className="interactive-card hover-lift p-6 flex items-center gap-5 group">
+                <div className="p-4 bg-purple-500/10 rounded-full text-purple-400 group-hover:bg-purple-500/20 group-hover:scale-110 transition-all duration-300 shrink-0">
+                  <MapPin size={24} />
+                </div>
+                <div>
+                  <h3 className="text-white text-lg font-bold mb-1 group-hover:text-purple-400 transition-colors">Location</h3>
+                  <p className="text-white/60 mb-1">Jaipur, Rajasthan, India</p>
+                  <p className="text-xs text-white/40 font-mono">Available for remote work worldwide</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
 
-            <Reveal delay={0.15} width="100%" className="h-full">
-              <ContactInfoCard
-                icon={FiMapPin}
-                label="Location"
-                value="Jaipur, Rajasthan"
-              />
-            </Reveal>
-          </div>
+          {/* Right Column: Contact Form */}
+          <motion.div
+            variants={fadeInUp}
+            className="glass p-8 md:p-10 rounded-2xl border border-white/10 relative h-full flex flex-col justify-center"
+          >
+            {/* Form Status Messages */}
+            {status === 'success' && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="absolute inset-0 z-20 bg-dark/95 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 rounded-2xl"
+              >
+                <div className="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mb-4">
+                  <CheckCircle size={32} />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                <p className="text-white/60 mb-6">Thanks for reaching out. I'll get back to you as soon as possible.</p>
+                <NeonButton onClick={() => setStatus('idle')} variant="ghost">
+                  Send Another
+                </NeonButton>
+              </motion.div>
+            )}
 
-          {/* Right Side - Contact Form (matches card grid height) */}
-          <Reveal width="100%" delay={0.1} className="h-full">
-            <GlassCard className="p-6 md:p-8 h-full flex flex-col">
-              <form onSubmit={handleSubmit} className="flex flex-col flex-1">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label htmlFor="name" className="block text-white/60 text-xs font-mono mb-2 uppercase tracking-wider">Name</label>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5 flex-1 justify-center">
+              <div>
+                <h3 className="text-xl font-bold text-white mb-6">Send a Message</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-xs font-mono text-white/40 uppercase tracking-wider ml-1">NAME</label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
                     <input
                       type="text"
                       id="name"
                       name="name"
-                      required
                       value={formData.name}
                       onChange={handleChange}
-                      className="input-focus w-full"
+                      required
+                      className="w-full bg-dark/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:border-neon focus:ring-1 focus:ring-neon/50 outline-none transition-all placeholder:text-white/20"
                       placeholder="John Doe"
-                      disabled={status === 'loading'}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-white/60 text-xs font-mono mb-2 uppercase tracking-wider">Email</label>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-xs font-mono text-white/40 uppercase tracking-wider ml-1">EMAIL</label>
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
                     <input
                       type="email"
                       id="email"
                       name="email"
-                      required
                       value={formData.email}
                       onChange={handleChange}
-                      className="input-focus w-full"
+                      required
+                      className="w-full bg-dark/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:border-neon focus:ring-1 focus:ring-neon/50 outline-none transition-all placeholder:text-white/20"
                       placeholder="john@example.com"
-                      disabled={status === 'loading'}
                     />
                   </div>
                 </div>
+              </div>
 
-                <div className="flex-1 mb-4">
-                  <label htmlFor="message" className="block text-white/60 text-xs font-mono mb-2 uppercase tracking-wider">Message</label>
+              <div className="space-y-2">
+                <label htmlFor="subject" className="text-xs font-mono text-white/40 uppercase tracking-wider ml-1">SUBJECT (OPTIONAL)</label>
+                <div className="relative">
+                  <FileText className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full bg-dark/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:border-neon focus:ring-1 focus:ring-neon/50 outline-none transition-all placeholder:text-white/20"
+                    placeholder="Project Collaboration"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-xs font-mono text-white/40 uppercase tracking-wider ml-1">MESSAGE</label>
+                <div className="relative">
+                  <MessageSquare className="absolute left-4 top-4 text-white/30" size={18} />
                   <textarea
                     id="message"
                     name="message"
-                    required
                     value={formData.message}
                     onChange={handleChange}
-                    className="input-focus w-full resize-none h-full min-h-[120px]"
-                    placeholder="Hello, I'd like to talk about..."
-                    disabled={status === 'loading'}
-                  />
+                    required
+                    rows="4"
+                    className="w-full bg-dark/50 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-white focus:border-neon focus:ring-1 focus:ring-neon/50 outline-none transition-all placeholder:text-white/20 resize-none"
+                    placeholder="Tell me about your project..."
+                  ></textarea>
                 </div>
+              </div>
 
-                <div className="flex flex-wrap items-center gap-4">
-                  <NeonButton
-                    type="submit"
-                    loading={status === 'loading'}
-                    disabled={status === 'loading'}
-                    icon={FiSend}
-                    iconPosition="left"
-                    variant="filled"
-                  >
-                    Send Message
-                  </NeonButton>
-
-                  {status === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="text-green-400 flex items-center gap-2 font-mono text-xs"
-                    >
-                      <FiCheckCircle /> <span>Message Sent!</span>
-                    </motion.div>
-                  )}
-
-                  {status === 'error' && (
-                    <motion.div
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="text-red-400 flex items-center gap-2 font-mono text-xs"
-                    >
-                      <FiAlertCircle /> <span>Failed to send</span>
-                    </motion.div>
-                  )}
+              {status === 'error' && (
+                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3 text-red-400 text-sm">
+                  <AlertCircle size={18} />
+                  <span>{errorMessage || 'Failed to send message. Please try again.'}</span>
                 </div>
-              </form>
-            </GlassCard>
-          </Reveal>
-        </div>
+              )}
+
+              <div className="pt-2">
+                <NeonButton
+                  type="submit"
+                  loading={status === 'loading'}
+                  success={status === 'success'}
+                  className="w-full justify-center"
+                  icon={Send}
+                >
+                  Send Message
+                </NeonButton>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
-}
+};
+
+export default Contact;
