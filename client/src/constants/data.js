@@ -10,12 +10,12 @@ export const personalData = {
   },
   about: {
     title: "About",
-    subtitle: "I am a dedicated Cybersecurity Enthusiast and Full-Stack Web Developer based in Jaipur, Rajasthan. With a strong academic background from JECRC University (MCA) and Government Engineering College Bikaner (BCA), I specialize in building secure, scalable web applications and performing vulnerability assessments.",
+    subtitle: "I’m an MCA student and Full-Stack Developer with a growing focus on cybersecurity. I don’t just build applications — I test them to understand where they can break and how to make them safer.",
     details: [
-      { prompt: "$ whoami", text: "Jaskaran Joshi | Cybersecurity Specialist in Jaipur" },
-      { prompt: "$ role", text: "MCA Student | Full-Stack Developer | Ethical Hacker" },
-      { prompt: "$ objective", text: "To engineer secure software solutions by merging full-stack development with offensive security strategies (Red Teaming)." },
-      { prompt: "$ interests", text: "Penetration Testing, Secure API Development, React.js, Node.js, and Cloud Security." }
+      { prompt: "$ whoami", text: "Jaskaran Joshi | Builder & Breaker" },
+      { prompt: "$ mission", text: "Building secure, scalable apps & finding vulnerabilities." },
+      { prompt: "$ focus", text: "React, Node.js, Cloud Security & Ethical Hacking." },
+      { prompt: "$ status", text: "Analyzing code, testing defenses & learning daily." }
     ]
   },
   education: [
@@ -44,7 +44,7 @@ export const personalData = {
     {
       title: "CodSoft – C++ Programming Intern",
       meta: "Aug 2024 – Sep 2024 • Remote",
-      body: "Worked on OOP fundamentals, problem-solving, and writing efficient code with attention to correctness and edge cases."
+      body: "During my internship at CodSoft, I worked with C++ and strengthened my understanding of object-oriented programming by applying it to real problems. I focused on writing cleaner, more structured code and enjoyed breaking down logic-heavy problems into simple solutions."
     }
   ],
   skills: [
@@ -142,7 +142,7 @@ export const personalData = {
     {
       id: "adoptnest",
       name: "AdoptNest – Secure Pet Adoption Platform",
-      description: "A React and Node.js-based full-stack adoption platform connecting shelters with adopters. Features secure user authentication, real-time database management, and responsive UI for reducing pet homelessness.",
+      description: "Built to simplify pet adoption using a clean, user-friendly full-stack platform. Pet adoption still relies a lot on unorganized systems, and I wanted to build something that could make the process simpler and more accessible.",
       tech: ["React", "Node.js", "Express", "Tailwind"],
       live: "https://adoptnest.vercel.app/",
       github: "https://github.com/Jashkaran-joshi/AdoptNest"
@@ -150,7 +150,7 @@ export const personalData = {
     {
       id: "snipsnap",
       name: "SnipSnap – Code Snippet Manager",
-      description: "Web application for saving, organizing, tagging, searching, and copying code snippets efficiently for developers across projects teams workflows learning growth.",
+      description: "Created to solve my own problem of managing and reusing code snippets without relying on scattered files or old projects. I wanted a clean place to save, organize, and quickly reuse code without the mess.",
       tech: ["React", "Node.js", "Express", "Tailwind"],
       live: "#",
       github: "https://github.com/Jashkaran-joshi/SnipSnap"

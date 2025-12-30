@@ -53,15 +53,13 @@ export default function About() {
           <div className="flex flex-col justify-center space-y-4 md:space-y-5 lg:space-y-7">
             <Reveal>
               <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 md:mb-3">
-                Full-Stack Developer & <span className="text-neon">Cybersecurity Enthusiast</span>
+                I'm <span className="text-neon">Jaskaran Joshi</span> – Full-Stack Developer & Cybersecurity Enthusiast
               </h3>
             </Reveal>
 
             <Reveal delay={0.2}>
               <p className="text-white/70 leading-relaxed text-sm sm:text-base">
-                I bridge the gap between building robust web applications and securing them.
-                With a strong foundation in modern full-stack technologies and a passion for ethical hacking,
-                I create digital experiences that are not only beautiful but resilient.
+                I got interested in cybersecurity when I realized how easily small mistakes in code can turn into serious security issues. I enjoy understanding how systems work under the hood and thinking like an attacker to find weak points before someone else does.
               </p>
             </Reveal>
 

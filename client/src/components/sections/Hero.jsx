@@ -289,8 +289,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/60 text-sm sm:text-base md:text-lg max-w-xl mb-6 md:mb-8 leading-relaxed text-balance"
           >
-            Bridging the gap between functional web applications and secure infrastructure.
-            Focused on building resilient, scalable, and user-centric digital experiences.
+            I build web applications that work smoothly and stay secure. I enjoy writing clean code and testing systems to find vulnerabilities before they become problems.
           </motion.p>
 
           {/* Buttons - Fade in after typing */}

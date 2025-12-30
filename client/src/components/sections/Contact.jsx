@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, MapPin, User, FileText, MessageSquare, AlertCircle, CheckCircle, Phone, Loader2 } from 'lucide-react';
+import { Send, Mail, MapPin, User, FileText, MessageSquare, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 import NeonButton from '../ui/NeonButton';
 
 const Contact = () => {
@@ -81,8 +81,7 @@ const Contact = () => {
                 Let's Work Together
               </h2>
               <p className="text-white/60 text-lg leading-relaxed max-w-md">
-                Have a project in mind or want to discuss security solutions?
-                I'm always open to new opportunities and collaborations.
+                Got a project idea or want to talk about web development or security? I’m always open to a conversation.
               </p>
             </div>
 
