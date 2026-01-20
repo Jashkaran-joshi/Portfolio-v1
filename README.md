@@ -6,18 +6,6 @@
 
 > A modern, cybersecurity-themed portfolio website showcasing full-stack development skills, projects, certifications, and experience. Built with React, Node.js, and MongoDB.
 
-## 🌐 Live Demo
-
-**Website:** [https://jaskaranjoshi.online](https://jaskaranjoshi.online)
-
-## 📸 Screenshots
-
-![Portfolio Homepage](docs/screenshots/homepage.png)
-_Modern cybersecurity-themed interface with smooth animations_
-
-![Contact Form](docs/screenshots/contact.png)
-_Secure contact form with rate limiting and validation_
-
 ## ✨ Features
 
 ### Frontend
