@@ -1,0 +1,103 @@
+# ============================================
+# CRITICAL: Environment Variables
+# NEVER COMMIT .env FILES
+# ============================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+
+# Explicit server environment files
+server/.env
+server/.env.local
+server/.env.production
+server/.env.development
+server/.env.test
+
+# Explicit client environment files
+client/.env
+client/.env.local
+client/.env.production
+client/.env.development
+client/.env.test
+
+# ============================================
+# Dependencies
+# ============================================
+node_modules/
+server/node_modules/
+client/node_modules/
+package-lock.json.bak
+yarn.lock.bak
+
+# ============================================
+# Build Outputs
+# ============================================
+dist/
+build/
+.next/
+out/
+client/dist/
+server/dist/
+*.tsbuildinfo
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# Operating System Files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ============================================
+# IDE / Editor Directories
+# ============================================
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+*.cache
+.cache/
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+.nyc_output/
+*.lcov
+
+# ============================================
+# Misc
+# ============================================
+.vercel
+.turbo
