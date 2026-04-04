@@ -1,45 +1,55 @@
-import { useEffect, useRef } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
+// Reverted: blur=false (suggestion 4.4 removed per user request)
 export default function Reveal({
   children,
   width = "fit-content",
   delay = 0.25,
-  direction = "up", // 'up' | 'down' | 'left' | 'right' | 'none'
-  duration = 0.6,
+  direction = "up",
+  duration = 0.5,
   className = "",
-  blur = false, // Add subtle blur during reveal
+  blur = false,
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const mainControls = useAnimation();
-
-  // Direction-based initial state
-  const getInitialState = () => {
-    const base = { opacity: 0 };
-    if (blur) base.filter = 'blur(10px)';
-
-    switch (direction) {
-      case 'up': return { ...base, y: 40 };
-      case 'down': return { ...base, y: -40 };
-      case 'left': return { ...base, x: 40 };
-      case 'right': return { ...base, x: -40 };
-      case 'none': return base;
-      default: return { ...base, y: 40 };
-    }
-  };
-
-  const getFinalState = () => {
-    const base = { opacity: 1, x: 0, y: 0 };
-    if (blur) base.filter = 'blur(0px)';
-    return base;
-  };
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (isInView) {
-      mainControls.start("visible");
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { rootMargin: '-80px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Direction-based transform
+  const getInitialTransform = () => {
+    switch (direction) {
+      case 'up': return 'translateY(40px)';
+      case 'down': return 'translateY(-40px)';
+      case 'left': return 'translateX(40px)';
+      case 'right': return 'translateX(-40px)';
+      case 'none': return 'none';
+      default: return 'translateY(40px)';
     }
-  }, [isInView, mainControls]);
+  };
+
+  const style = {
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? 'translate(0, 0)' : getInitialTransform(),
+    filter: blur ? (isVisible ? 'blur(0px)' : 'blur(10px)') : undefined,
+    transition: `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s${blur ? `, filter ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s` : ''}`,
+    willChange: isVisible ? 'auto' : 'transform, opacity',
+  };
 
   return (
     <div
@@ -52,23 +62,12 @@ export default function Reveal({
       }}
       className={className}
     >
-      <motion.div
-        variants={{
-          hidden: getInitialState(),
-          visible: getFinalState(),
-        }}
-        initial="hidden"
-        animate={mainControls}
-        transition={{
-          duration,
-          ease: [0.16, 1, 0.3, 1],
-          delay
-        }}
+      <div
+        style={style}
         className={className.includes('h-full') ? 'h-full' : ''}
-        style={{ willChange: 'transform, opacity' }}
       >
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import SEO from '../components/SEO';
 
 const Skills = lazy(() => import('../components/sections/Skills'));
+const Certifications = lazy(() => import('../components/sections/Certifications'));
 
 export default function SkillsPage() {
     return (
@@ -13,8 +14,12 @@ export default function SkillsPage() {
                 canonical="/skills"
             />
             <Suspense fallback={<LoadingSpinner />}>
-                <div className="pt-20">
+                {/* Standard navbar clearance: pt-20 (sections add py-12 from section-spacing) */}
+                <div className="pt-12">
                     <Skills />
+                    <div className="pb-20">
+                        <Certifications />
+                    </div>
                 </div>
             </Suspense>
         </>

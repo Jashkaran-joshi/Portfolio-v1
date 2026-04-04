@@ -6,6 +6,7 @@
   html {
     scroll-behavior: smooth;
     font-size: 95%;
+    overflow-x: hidden;
     /* Global scale refinement - tuned to 95% */
   }
 
@@ -13,6 +14,8 @@
     @apply bg-dark text-text-primary font-sans overflow-x-hidden antialiased;
     background-image:
       radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.03) 0%, transparent 50%);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   /* Respect reduced motion preference */
@@ -67,6 +70,29 @@
     }
   }
 
+  /* SUGGESTION 5.3: CSS-only typewriter cycling 3 lines every 12s (4s each).
+     Uses content switching in @keyframes — no JS, no library. */
+  @keyframes typewriterCycle {
+    0%,  30%  { content: "Python developer building production-grade APIs_"; }
+    33%, 63%  { content: "Cybersecurity analyst breaking systems first_"; }
+    66%, 96%  { content: "Full-stack engineer — idea to deployment_"; }
+    100%      { content: "Python developer building production-grade APIs_"; }
+  }
+
+  .typewriter-cycle::after {
+    content: "Python developer building production-grade APIs_";
+    animation: typewriterCycle 12s step-end infinite;
+    animation-delay: 0.2s;
+    color: rgba(255,255,255,0.6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .typewriter-cycle::after {
+      animation: none;
+      content: "CEH-certified Python developer and cybersecurity analyst.";
+    }
+  }
+
   @keyframes fadeOut {
     from {
       opacity: 1;
@@ -76,24 +102,366 @@
       opacity: 0;
     }
   }
+
+  /* Hero animations – use only transform/opacity for GPU compositing */
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroScaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes heroFloat {
+
+    0%,
+    100% {
+      transform: translateY(-8px);
+    }
+
+    50% {
+      transform: translateY(8px);
+    }
+  }
+
+  @keyframes scanLine {
+    0% {
+      transform: translateY(-200%);
+      opacity: 0;
+    }
+
+    10% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(400%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes trafficPulse {
+
+    0%,
+    100% {
+      transform: scaleY(0.7);
+    }
+
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes terminalBlink {
+
+    0%,
+    80% {
+      opacity: 1;
+    }
+
+    90%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .hero-fade-in {
+    opacity: 0;
+    animation: heroFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero-scale-in {
+    opacity: 0;
+    animation: heroScaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.05s;
+  }
+
+  .hero-float {
+    animation: heroFloat 6s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .scan-line {
+    animation: scanLine 5s linear infinite;
+    will-change: transform, opacity;
+  }
+
+  .traffic-bar {
+    transform-origin: bottom;
+    animation: trafficPulse 1.5s ease-in-out infinite;
+  }
+
+  .terminal-blink {
+    animation: terminalBlink 2s linear infinite;
+  }
+
+  /* Orbit spin animations – CSS only, no JS overhead */
+  @keyframes orbitSpin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbitSpinReverse {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  .orbit-spin-slow {
+    animation: orbitSpin 30s linear infinite;
+  }
+
+  .orbit-spin-medium {
+    animation: orbitSpin 18s linear infinite;
+  }
+
+  .orbit-spin-slow-reverse {
+    animation: orbitSpinReverse 24s linear infinite;
+  }
+
+  .orbit-spin-slower {
+    animation: orbitSpin 32s linear infinite;
+  }
+
+  .orbit-spin-slowest-reverse {
+    animation: orbitSpinReverse 40s linear infinite;
+  }
+
+  .orbit-counterspin-medium {
+    animation: orbitSpinReverse 18s linear infinite;
+  }
+
+  .orbit-counterspin-slow-reverse {
+    animation: orbitSpin 24s linear infinite;
+  }
+
+  .orbit-counterspin-slower {
+    animation: orbitSpinReverse 32s linear infinite;
+  }
+
+  .orbit-counterspin-slowest-reverse {
+    animation: orbitSpin 40s linear infinite;
+  }
+
+  /* Scroll indicator – composited CSS-only animation */
+  @keyframes scrollBounce {
+
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    50% {
+      transform: translateY(8px);
+      opacity: 0.4;
+    }
+  }
+
+  .scroll-indicator-line {
+    animation: scrollBounce 2s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  /* Disable non-essential hero animations on mobile */
+  @media (max-width: 640px) {
+    .hero-float {
+      animation: none;
+    }
+
+    .scan-line {
+      animation: none;
+      display: none;
+    }
+
+    .traffic-bar {
+      animation: none;
+    }
+  }
+
+  /* Navbar slide-down – replaces framer-motion y-animation to prevent CLS */
+  @keyframes navbarSlideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .navbar-slide-down {
+    animation: navbarSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Standardized button micro-interactions (see components/ui/Button.jsx) */
+  .neon-btn-interact,
+  .btn-premium-interact {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, background-color 0.4s, border-color 0.4s, color 0.3s;
+  }
+
+  .neon-btn-interact:hover:not(:disabled),
+  .btn-premium-interact:hover:not(:disabled) {
+    transform: scale(1.02);
+  }
+
+  .neon-btn-interact:active:not(:disabled),
+  .btn-premium-interact:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  .neon-btn-state,
+  .btn-premium-state {
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  @keyframes btn-shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
+  .btn-shimmer-layer {
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.16) 50%, transparent 65%);
+    background-size: 200% 100%;
+    animation: btn-shimmer 2.8s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .btn-shimmer-layer {
+      animation: none;
+    }
+
+    .btn-premium-interact:hover:not(:disabled),
+    .btn-premium-interact:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  /* Mobile nav item staggered entry – replaces framer-motion */
+  @keyframes mobileNavSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .mobile-nav-item {
+    opacity: 0;
+    animation: mobileNavSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* LoadingSpinner CSS animations – replaces framer-motion */
+  @keyframes spinnerOuter {
+    to {
+      transform: rotate(360deg)
+    }
+  }
+
+  @keyframes spinnerInner {
+    to {
+      transform: rotate(-360deg)
+    }
+  }
+
+  @keyframes spinnerPulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.5
+    }
+
+    50% {
+      transform: scale(1.2);
+      opacity: 1
+    }
+  }
+
+  @keyframes spinnerBar {
+    0% {
+      transform: scaleX(0)
+    }
+
+    100% {
+      transform: scaleX(1)
+    }
+  }
+
+  .css-spinner-outer {
+    animation: spinnerOuter 1.5s linear infinite;
+  }
+
+  .css-spinner-inner {
+    animation: spinnerInner 2s linear infinite;
+  }
+
+  .css-spinner-pulse {
+    animation: spinnerPulse 2s ease-in-out infinite;
+  }
+
+  .css-spinner-bar {
+    animation: spinnerBar 1.5s linear infinite;
+  }
 }
 
 @layer components {
 
   /* Container sizing - widened for large screens */
   .container-custom {
-    @apply max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 lg:px-24 w-full;
+    @apply max-w-[1440px] mx-auto px-4 sm:px-12 md:px-16 lg:px-24 w-full;
   }
 
-  /* Section spacing - reduced for cleaner look */
+  /* Section spacing - increased for better breathing room */
   .section-spacing {
     @apply py-12 md:py-16 lg:py-20;
   }
 
-  /* Glass morphism effect */
+  /* Glass morphism effect - refined for depth */
   .glass {
-    @apply bg-cyber-light/10 backdrop-blur-xl border border-white/10 shadow-xl;
-    background: linear-gradient(135deg, rgba(17, 34, 64, 0.4) 0%, rgba(17, 34, 64, 0.1) 100%);
+    @apply bg-cyber-light/5 backdrop-blur-xl border border-white/5 shadow-lg;
+    background: linear-gradient(135deg, rgba(17, 34, 64, 0.3) 0%, rgba(17, 34, 64, 0.1) 100%);
   }
 
   .glass-hover {
@@ -125,41 +493,6 @@
 
   .text-glow-strong {
     text-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.3);
-  }
-
-  /* Premium button styles */
-  .cyber-button {
-    @apply relative px-6 py-3 bg-transparent border border-neon text-neon font-mono text-sm uppercase tracking-widest transition-all duration-300 overflow-hidden rounded-sm;
-  }
-
-  .cyber-button::before {
-    content: '';
-    @apply absolute top-0 left-0 w-full h-full bg-neon/10 -translate-x-full skew-x-12 transition-transform duration-500;
-  }
-
-  .cyber-button:hover::before {
-    @apply translate-x-0;
-  }
-
-  .cyber-button:hover {
-    @apply shadow-glow;
-  }
-
-  .cyber-button:focus-visible {
-    @apply ring-2 ring-neon ring-offset-2 ring-offset-dark;
-  }
-
-  .cyber-button:disabled {
-    @apply opacity-50 cursor-not-allowed;
-  }
-
-  .cyber-button:disabled:hover::before {
-    @apply -translate-x-full;
-  }
-
-  /* Primary filled button variant */
-  .cyber-button-filled {
-    @apply cyber-button bg-neon/10 hover:bg-neon/20;
   }
 
   /* Section divider */
@@ -272,5 +605,25 @@
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* ISSUE 3.3 FIX: animation-fill-mode: forwards utility */
+  .fill-mode-forwards {
+    animation-fill-mode: forwards;
+  }
+
+
+
+  /* SUGGESTION 4.2: Parallax blob utility — driven by JS setting --scroll-y on documentElement.
+     Uses transform only (GPU composited). No layout repaints. */
+  .parallax-blob {
+    transform: translateY(var(--scroll-y, 0px));
+    will-change: transform;
+  }
+
+  /* Deeper parallax for background elements further "back" */
+  .parallax-blob-deep {
+    transform: translateY(calc(var(--scroll-y, 0px) * 0.5));
+    will-change: transform;
   }
 }

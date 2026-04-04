@@ -1,3 +1,5 @@
+import typography from '@tailwindcss/typography'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -27,7 +29,7 @@ export default {
       fontFamily: {
         mono: ['"Fira Code"', 'monospace'],
         sans: ['"Inter"', 'sans-serif'],
-        display: ['"Space Grotesk"', 'sans-serif'],
+        display: ['"Space Grotesk"', '"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       // Consistent spacing scale (4px base)
       spacing: {
@@ -50,11 +52,11 @@ export default {
         'scan': 'scan 4s linear infinite',
         'gradient': 'gradient 8s linear infinite',
         // Premium new animations
-        'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'fade-in-down': 'fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'scale-in': 'scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'slide-in-left': 'slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'slide-in-right': 'slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in-up': 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in-down': 'fadeInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'scale-in': 'scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-in-left': 'slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
         'shimmer': 'shimmer 2s linear infinite',
       },
@@ -99,8 +101,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         glowPulse: {
-          '0%, 100%': { boxShadow: '0 0 5px rgba(0, 243, 255, 0.3), 0 0 10px rgba(0, 243, 255, 0.2)' },
-          '50%': { boxShadow: '0 0 15px rgba(0, 243, 255, 0.5), 0 0 30px rgba(0, 243, 255, 0.3)' },
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.6' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
@@ -127,5 +129,17 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    typography,
+    function ({ addUtilities }) {
+      addUtilities({
+        '.will-change-transform': {
+          'will-change': 'transform',
+        },
+        '.will-change-opacity': {
+          'will-change': 'opacity',
+        },
+      })
+    }
+  ],
 }

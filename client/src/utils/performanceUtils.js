@@ -63,8 +63,8 @@ export function getOptimalParticleCount() {
     const isTablet = width >= 768 && width < 1024;
 
     // Reduce particles on smaller screens
-    if (isMobile) return 20;
-    if (isTablet) return 35;
+    if (isMobile) return 12;
+    if (isTablet) return 30;
     return Math.min(Math.floor(width * 0.05), 50);
 }
 

@@ -1,6 +1,32 @@
 import { useEffect, useRef, memo } from 'react';
 import { prefersReducedMotion, getOptimalParticleCount, debounce } from '../../utils/performanceUtils';
 
+// Particle class with optimized draw
+class Particle {
+  constructor(w, h) {
+    this.reset(w, h);
+  }
+
+  reset(w, h) {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.isNeon = Math.random() > 0.5;
+  }
+
+  update(w, h) {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.x < 0) this.x = w;
+    if (this.x > w) this.x = 0;
+    if (this.y < 0) this.y = h;
+    if (this.y > h) this.y = 0;
+  }
+}
+
 const CyberBackground = memo(function CyberBackground() {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
@@ -19,31 +45,7 @@ const CyberBackground = memo(function CyberBackground() {
     let width, height;
     let isVisible = true;
 
-    // Particle class with optimized draw
-    class Particle {
-      constructor(w, h) {
-        this.reset(w, h);
-      }
 
-      reset(w, h) {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.isNeon = Math.random() > 0.5;
-      }
-
-      update(w, h) {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0) this.x = w;
-        if (this.x > w) this.x = 0;
-        if (this.y < 0) this.y = h;
-        if (this.y > h) this.y = 0;
-      }
-    }
 
     const resize = () => {
       width = window.innerWidth;
@@ -85,6 +87,7 @@ const CyberBackground = memo(function CyberBackground() {
 
       const particles = particlesRef.current;
       const len = particles.length;
+      const isMobile = width < 768;
 
       // Draw particles
       for (let i = 0; i < len; i++) {
@@ -97,27 +100,29 @@ const CyberBackground = memo(function CyberBackground() {
         ctx.globalAlpha = 0.6;
         ctx.fill();
 
-        // Connect nearby particles (optimized with distance check)
-        for (let j = i + 1; j < len; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
+        // Skip connection lines on mobile to reduce draw calls
+        if (!isMobile) {
+          for (let j = i + 1; j < len; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
 
-          // Quick x-axis check first
-          if (Math.abs(dx) > 80) continue;
+            // Quick x-axis check first
+            if (Math.abs(dx) > 80) continue;
 
-          const dy = p.y - p2.y;
-          const distSq = dx * dx + dy * dy;
+            const dy = p.y - p2.y;
+            const distSq = dx * dx + dy * dy;
 
-          // Use squared distance to avoid sqrt
-          if (distSq < 6400) { // 80^2
-            const alpha = 0.04 * (1 - distSq / 6400);
-            ctx.beginPath();
-            ctx.strokeStyle = p.isNeon ? '#00f3ff' : '#ccd6f6';
-            ctx.globalAlpha = alpha;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+            // Use squared distance to avoid sqrt
+            if (distSq < 6400) { // 80^2
+              const alpha = 0.04 * (1 - distSq / 6400);
+              ctx.beginPath();
+              ctx.strokeStyle = p.isNeon ? '#00f3ff' : '#ccd6f6';
+              ctx.globalAlpha = alpha;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -126,7 +131,13 @@ const CyberBackground = memo(function CyberBackground() {
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    // Defer animation start to after critical rendering
+    const startAnimation = () => animate();
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(startAnimation, { timeout: 2000 });
+    } else {
+      setTimeout(startAnimation, 200);
+    }
 
     return () => {
       if (animationRef.current) {

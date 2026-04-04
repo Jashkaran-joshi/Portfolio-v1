@@ -13,7 +13,8 @@ export default function ContactPage() {
                 canonical="/contact"
             />
             <Suspense fallback={<LoadingSpinner />}>
-                <div className="pt-20">
+                {/* Standard navbar clearance: pt-20 (Contact section adds py-12 from section-spacing) */}
+                <div className="pt-12">
                     <Contact />
                 </div>
             </Suspense>

@@ -43,7 +43,7 @@ const submitContactForm = async (req, res) => {
     }
 
     const { name, email, message, subject } = req.body;
-    const clientIp = req.ip || req.connection.remoteAddress;
+    const clientIp = req.ip || req.socket?.remoteAddress || 'unknown';
 
     // 2. Spam Prevention (Basic)
     if (message.length > 5000) {

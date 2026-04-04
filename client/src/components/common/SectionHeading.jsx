@@ -1,13 +1,14 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import Reveal from '../ui/Reveal';
 
-export default function SectionHeading({
+const SectionHeading = ({
   eyebrow,
   title,
   subtitle,
   align = 'left',
   titleSize = 'default', // 'default' | 'large'
-}) {
+}) => {
   const alignClasses = {
     left: 'text-left',
     center: 'text-center items-center flex flex-col',
@@ -62,4 +63,6 @@ export default function SectionHeading({
       )}
     </div>
   );
-}
+};
+
+export default memo(SectionHeading);
